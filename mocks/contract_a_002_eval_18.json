@@ -1,0 +1,14 @@
+{
+  "claim_id": "CLM-20261020-002",
+  "vehicle": {
+    "make": "Hyundai",
+    "model": "Creta",
+    "year": 2022,
+    "fuel": "diesel"
+  },
+  "user_description": "Heard a thud from the front while parking at the mall, not sure if anything is damaged",
+  "damages": [],
+  "image_quality_flags": [],
+  "model_used": "gemini-3.5-flash-lite",
+  "prompt_strategy": "v4_best"
+}

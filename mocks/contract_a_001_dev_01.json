@@ -1,0 +1,39 @@
+{
+  "claim_id": "CLM-20261020-001",
+  "vehicle": {
+    "make": "Maruti Suzuki",
+    "model": "Swift",
+    "year": 2021,
+    "fuel": "petrol"
+  },
+  "user_description": "Scraped a parking pillar while turning out of the basement",
+  "damages": [
+    {
+      "part": "right_headlamp",
+      "damage_type": "lamp_broken",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "image_index": 0,
+      "notes": "Corner of the right headlamp lens is cracked and broken, about 5 cm wide"
+    },
+    {
+      "part": "front_bumper",
+      "damage_type": "scratch",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "image_index": 0,
+      "notes": "Paint scraped and peeled off revealing black primer on the right side of the bumper, roughly 20 cm"
+    },
+    {
+      "part": "front_bumper",
+      "damage_type": "dent",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "image_index": 0,
+      "notes": "Deformation and rippling on the front bumper surface near the headlamp, about 15 cm"
+    }
+  ],
+  "image_quality_flags": [],
+  "model_used": "gemini-3.5-flash-lite",
+  "prompt_strategy": "v4_best"
+}

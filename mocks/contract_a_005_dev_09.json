@@ -1,0 +1,27 @@
+{
+  "claim_id": "CLM-20261020-005",
+  "vehicle": {
+    "make": "Maruti Suzuki",
+    "model": "Baleno",
+    "year": 2020,
+    "fuel": "cng"
+  },
+  "user_description": "Bumper scraped in traffic, photo taken at night on my phone",
+  "damages": [
+    {
+      "part": "front_bumper",
+      "damage_type": "scratch",
+      "severity": "minor",
+      "confidence": 0.5,
+      "image_index": 0,
+      "notes": "Scrape on the front bumper corner, roughly 15 cm long"
+    }
+  ],
+  "image_quality_flags": [
+    "image_0_blurry",
+    "image_0_low_resolution",
+    "image_0_too_dark"
+  ],
+  "model_used": "gemini-3.5-flash-lite",
+  "prompt_strategy": "v4_best"
+}

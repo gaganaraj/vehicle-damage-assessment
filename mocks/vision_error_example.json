@@ -1,0 +1,9 @@
+{
+  "claim_id": "CLM-20261020-006",
+  "error_code": "invalid_model_output",
+  "message": "The reply contained no JSON object. Return exactly one JSON object.",
+  "attempts": 3,
+  "last_raw_output": "I'm sorry, I can't tell what this photo shows.",
+  "model_used": "gemini-3.5-flash-lite",
+  "prompt_strategy": "v4_best"
+}

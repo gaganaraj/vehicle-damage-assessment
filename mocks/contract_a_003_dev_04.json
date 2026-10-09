@@ -1,0 +1,23 @@
+{
+  "claim_id": "CLM-20261020-003",
+  "vehicle": {
+    "make": "Tata",
+    "model": "Nexon",
+    "year": 2023,
+    "fuel": "petrol"
+  },
+  "user_description": "Windshield smashed by a falling branch during the storm",
+  "damages": [
+    {
+      "part": "windshield",
+      "damage_type": "glass_shatter",
+      "severity": "severe",
+      "confidence": 0.95,
+      "image_index": 0,
+      "notes": "Windshield completely shattered and cracked across the entire surface"
+    }
+  ],
+  "image_quality_flags": [],
+  "model_used": "gemini-3.5-flash-lite",
+  "prompt_strategy": "v4_best"
+}

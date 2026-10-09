@@ -1,0 +1,47 @@
+{
+  "claim_id": "CLM-20261020-004",
+  "vehicle": {
+    "make": "Honda",
+    "model": "City",
+    "year": 2019,
+    "fuel": "petrol"
+  },
+  "user_description": "Another car hit the driver side at a junction",
+  "damages": [
+    {
+      "part": "front_left_door",
+      "damage_type": "dent",
+      "severity": "severe",
+      "confidence": 0.95,
+      "image_index": 0,
+      "notes": "Large inward crush and deep deformation across most of the front left door panel"
+    },
+    {
+      "part": "front_left_door",
+      "damage_type": "scratch",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "image_index": 0,
+      "notes": "Paint scraped through to primer/metal along the lower portion of the front door"
+    },
+    {
+      "part": "rear_left_door",
+      "damage_type": "dent",
+      "severity": "severe",
+      "confidence": 0.95,
+      "image_index": 0,
+      "notes": "Severe inward denting and creasing across the entire rear left door panel"
+    },
+    {
+      "part": "rear_left_door",
+      "damage_type": "scratch",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "image_index": 0,
+      "notes": "Paint scraped off exposing bare metal on the lower part of the rear door"
+    }
+  ],
+  "image_quality_flags": [],
+  "model_used": "gemini-3.5-flash-lite",
+  "prompt_strategy": "v4_best"
+}

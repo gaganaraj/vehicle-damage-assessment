@@ -1,0 +1,167 @@
+{
+  "$defs": {
+    "Damage": {
+      "description": "One damaged part as seen in one photo.",
+      "properties": {
+        "part": {
+          "enum": [
+            "front_bumper",
+            "rear_bumper",
+            "bonnet",
+            "boot_lid",
+            "grille",
+            "roof",
+            "windshield",
+            "rear_windshield",
+            "left_headlamp",
+            "right_headlamp",
+            "left_taillamp",
+            "right_taillamp",
+            "left_orvm",
+            "right_orvm",
+            "front_left_door",
+            "front_right_door",
+            "rear_left_door",
+            "rear_right_door",
+            "front_left_fender",
+            "front_right_fender",
+            "left_quarter_panel",
+            "right_quarter_panel",
+            "front_left_tyre",
+            "front_right_tyre",
+            "rear_left_tyre",
+            "rear_right_tyre"
+          ],
+          "title": "Part",
+          "type": "string"
+        },
+        "damage_type": {
+          "enum": [
+            "dent",
+            "scratch",
+            "crack",
+            "glass_shatter",
+            "lamp_broken",
+            "tire_flat"
+          ],
+          "title": "Damage Type",
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "minor",
+            "moderate",
+            "severe"
+          ],
+          "title": "Severity",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "image_index": {
+          "minimum": 0,
+          "title": "Image Index",
+          "type": "integer"
+        },
+        "notes": {
+          "default": "",
+          "title": "Notes",
+          "type": "string"
+        }
+      },
+      "required": [
+        "part",
+        "damage_type",
+        "severity",
+        "confidence",
+        "image_index"
+      ],
+      "title": "Damage",
+      "type": "object"
+    },
+    "Vehicle": {
+      "description": "Vehicle details typed by the user in the form, never filled by the VLM.",
+      "properties": {
+        "make": {
+          "title": "Make",
+          "type": "string"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "year": {
+          "maximum": 2100,
+          "minimum": 1980,
+          "title": "Year",
+          "type": "integer"
+        },
+        "fuel": {
+          "title": "Fuel",
+          "type": "string"
+        }
+      },
+      "required": [
+        "make",
+        "model",
+        "year",
+        "fuel"
+      ],
+      "title": "Vehicle",
+      "type": "object"
+    }
+  },
+  "description": "Contract A: the damage report handed to the cost engine, RAG and UI.",
+  "properties": {
+    "claim_id": {
+      "pattern": "^CLM-\\d{8}-\\d{3}$",
+      "title": "Claim Id",
+      "type": "string"
+    },
+    "vehicle": {
+      "$ref": "#/$defs/Vehicle"
+    },
+    "user_description": {
+      "title": "User Description",
+      "type": "string"
+    },
+    "damages": {
+      "items": {
+        "$ref": "#/$defs/Damage"
+      },
+      "title": "Damages",
+      "type": "array"
+    },
+    "image_quality_flags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Image Quality Flags",
+      "type": "array"
+    },
+    "model_used": {
+      "title": "Model Used",
+      "type": "string"
+    },
+    "prompt_strategy": {
+      "title": "Prompt Strategy",
+      "type": "string"
+    }
+  },
+  "required": [
+    "claim_id",
+    "vehicle",
+    "user_description",
+    "damages",
+    "image_quality_flags",
+    "model_used",
+    "prompt_strategy"
+  ],
+  "title": "Contract A: Damage report",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}
