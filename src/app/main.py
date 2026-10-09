@@ -1,6 +1,12 @@
 
 import streamlit as st
 
+from src.pipeline.contract_a_validator import validate_contract_a
+from src.pipeline.mock_pipeline import (
+    list_contract_a_samples,
+    load_contract_a_sample,
+)
+
 st.set_page_config(
     page_title="Vehicle Damage Assessment",
     page_icon="🚗",
@@ -13,8 +19,9 @@ st.caption(
 )
 
 st.info(
-    "Prototype UI: damage detection, repair estimates, and policy analysis "
-    "will be connected after the team modules are integrated."
+    "Prototype mode: the sample reports below are pre-existing test data. "
+    "Live AI detection, repair estimates, and policy analysis are not "
+    "connected yet."
 )
 
 st.header("1. Vehicle Information")
@@ -27,7 +34,7 @@ with col1:
     year = st.number_input(
         "Manufacturing year",
         min_value=1980,
-        max_value=2026,
+        max_value=2100,
         value=2022,
         step=1,
     )
@@ -48,7 +55,7 @@ uploaded_files = st.file_uploader(
     "Upload 1–5 vehicle photos",
     type=["jpg", "jpeg", "png"],
     accept_multiple_files=True,
-    help="Use clear photos showing the damaged areas from different angles.",
+    help="Use clear photos showing damaged areas from different angles.",
 )
 
 if uploaded_files:
@@ -64,7 +71,7 @@ if uploaded_files:
                 st.image(
                     uploaded_file,
                     caption=f"Photo {index + 1}",
-                    use_container_width=True,
+                    width="stretch",
                 )
 
 st.divider()
@@ -79,10 +86,117 @@ if st.button("Prepare Assessment", type="primary"):
         st.error("Please upload no more than 5 photos.")
     else:
         st.success("Input validation passed!")
-        st.write("Vehicle:", make, model, year)
+        st.write("Vehicle:", make, model, int(year))
         st.write("Fuel type:", fuel_type)
         st.write("Photos uploaded:", len(uploaded_files))
         st.info(
-            "This is a UI test only. No damage detection, cost calculation, "
-            "or policy analysis has run yet."
+            "Your inputs are valid. The uploaded photos have not been "
+            "analysed by an AI model yet."
         )
+
+st.divider()
+st.header("4. Contract A — Sample Report Viewer")
+
+st.caption(
+    "Use this section to test the team's report schema and UI. "
+    "Selecting a sample does not analyse your uploaded photos."
+)
+
+sample_files = list_contract_a_samples()
+
+if not sample_files:
+    st.warning("No Contract A sample reports were found in the mocks folder.")
+else:
+    selected_sample = st.selectbox(
+        "Choose a sample report",
+        sample_files,
+    )
+
+    if st.button("Load Sample Report"):
+        try:
+            report = load_contract_a_sample(selected_sample)
+            errors = validate_contract_a(report)
+
+            if errors:
+                st.error("This sample does not pass Contract A validation.")
+                for error in errors:
+                    st.write(f"- {error}")
+            else:
+                st.session_state["contract_a_sample_report"] = report
+                st.session_state["contract_a_sample_filename"] = selected_sample
+
+        except (ValueError, OSError, RuntimeError) as error:
+            st.error(f"Could not load the sample report: {error}")
+
+    report = st.session_state.get("contract_a_sample_report")
+
+    if report:
+        st.subheader("Sample Report Results")
+        st.caption(
+            "Demo data only — these results came from a saved JSON file."
+        )
+
+        st.write("**Sample file:**", st.session_state.get(
+            "contract_a_sample_filename", ""
+        ))
+        st.write("**Claim ID:**", report.get("claim_id", "Not provided"))
+
+        vehicle = report.get("vehicle", {})
+
+        v1, v2, v3, v4 = st.columns(4)
+        v1.metric("Make", vehicle.get("make", "—"))
+        v2.metric("Model", vehicle.get("model", "—"))
+        v3.metric("Year", vehicle.get("year", "—"))
+        v4.metric("Fuel", vehicle.get("fuel", "—"))
+
+        st.subheader("Detected Damage Entries")
+        damages = report.get("damages", [])
+
+        if damages:
+            display_damages = []
+
+            for damage in damages:
+                display_damages.append(
+                    {
+                        "Part": damage.get("part", "—"),
+                        "Damage Type": damage.get("damage_type", "—"),
+                        "Severity": damage.get("severity", "—"),
+                        "Confidence": (
+                            f"{damage.get('confidence', 0):.0%}"
+                            if isinstance(damage.get("confidence"), (int, float))
+                            else "—"
+                        ),
+                        "Photo Number": (
+                            damage["image_index"] + 1
+                            if isinstance(damage.get("image_index"), int)
+                            else "—"
+                        ),
+                        "Notes": damage.get("notes", ""),
+                    }
+                )
+
+            st.dataframe(
+                display_damages,
+                use_container_width=True,
+                hide_index=True,
+            )
+        else:
+            st.info("No damage entries are recorded in this sample.")
+
+        quality_flags = report.get("image_quality_flags", [])
+        st.subheader("Image Quality")
+        if quality_flags:
+            for flag in quality_flags:
+                st.warning(str(flag))
+        else:
+            st.success("No image quality flags are recorded in this sample.")
+
+        with st.expander("Technical Metadata"):
+            st.write("**Model used:**", report.get("model_used", "—"))
+            st.write(
+                "**Prompt strategy:**",
+                report.get("prompt_strategy", "—"),
+            )
+
+        with st.expander("View Complete Contract A JSON"):
+            st.json(report)
